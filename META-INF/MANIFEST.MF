@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Rambo
+Bundle-SymbolicName: com.gpiskun.rambo;singleton:=true
+Bundle-Version: 1.0.0.beta
+Bundle-Activator: com.gpiskun.rambo.Activator
+Bundle-Vendor: gpiskun
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
