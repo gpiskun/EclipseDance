@@ -4,9 +4,10 @@ public class RamboConfig {
 	
 	private boolean reloadTargetPlatform;
 	private boolean reloadPlugins;
-	private boolean compileProjects;
+	private boolean cleanAllProjects;
 	private boolean refreshPackageExplorer;
 	private boolean updateRunConfiguration;
+	private boolean deleteWorkDirectory;
 	
 	public boolean isReloadTargetPlatform() {
 		return reloadTargetPlatform;
@@ -24,12 +25,12 @@ public class RamboConfig {
 		this.reloadPlugins = reloadPlugins;
 	}
 	
-	public boolean isCompileProjects() {
-		return compileProjects;
+	public boolean isCleanAllProjects() {
+		return cleanAllProjects;
 	}
 	
-	public void setCompileProjects(boolean compileProjects) {
-		this.compileProjects = compileProjects;
+	public void setCleanAllProjects(boolean compileProjects) {
+		this.cleanAllProjects = compileProjects;
 	}
 	
 	public boolean isRefreshPackageExplorer() {
@@ -46,5 +47,13 @@ public class RamboConfig {
 	
 	public void setUpdateRunConfiguration(boolean updateRunConfiguration) {
 		this.updateRunConfiguration = updateRunConfiguration;
+	}
+
+	public boolean isDeleteWorkDirectory() {
+		return deleteWorkDirectory;
+	}
+
+	public void setDeleteWorkDirectory(boolean deleteWorkDirectory) {
+		this.deleteWorkDirectory = deleteWorkDirectory;
 	}
 }
