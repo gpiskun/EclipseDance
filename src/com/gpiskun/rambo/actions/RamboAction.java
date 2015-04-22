@@ -1,10 +1,12 @@
 package com.gpiskun.rambo.actions;
 
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
-import org.eclipse.jface.dialogs.MessageDialog;
+
+import com.gpiskun.rambo.preferences.RamboPreferenceField;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -28,11 +30,16 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 * in the workbench UI.
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
+	@Override
 	public void run(IAction action) {
+		String settings = "";
+		for (RamboPreferenceField field : RamboPreferenceField.values()) {
+			settings += field.name() + ": " + field.enabled() + "\n";
+		}
 		MessageDialog.openInformation(
 			window.getShell(),
-			"Rambo",
-			"Hello, Eclipse world");
+			"Rambo Settings",
+			settings);
 	}
 
 	/**
@@ -42,6 +49,7 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 * the delegate has been created.
 	 * @see IWorkbenchWindowActionDelegate#selectionChanged
 	 */
+	@Override
 	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
@@ -50,6 +58,7 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 * resources we previously allocated.
 	 * @see IWorkbenchWindowActionDelegate#dispose
 	 */
+	@Override
 	public void dispose() {
 	}
 
@@ -58,6 +67,7 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 * be able to provide parent shell for the message dialog.
 	 * @see IWorkbenchWindowActionDelegate#init
 	 */
+	@Override
 	public void init(IWorkbenchWindow window) {
 		this.window = window;
 	}

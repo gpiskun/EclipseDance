@@ -3,7 +3,7 @@ package com.gpiskun.rambo.preferences;
 import org.eclipse.jface.preference.*;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbench;
-import com.gpiskun.rambo.Activator;
+import com.gpiskun.rambo.RamboActivator;
 
 /**
  * This class represents a preference page that
@@ -25,7 +25,7 @@ public class RamboPreferencePage
 
 	public RamboPreferencePage() {
 		super(GRID);
-		setPreferenceStore(Activator.getDefault().getPreferenceStore());
+		setPreferenceStore(RamboActivator.getDefault().getPreferenceStore());
 		setDescription("Rambo Plug-In Settings");
 	}
 	
@@ -36,7 +36,7 @@ public class RamboPreferencePage
 	 * restore itself.
 	 */
 	public void createFieldEditors() {
-		for (PreferenceField field : PreferenceField.values()) {
+		for (RamboPreferenceField field : RamboPreferenceField.values()) {
 			addField(createFieldEditor(field));
 		}
 	}
@@ -47,7 +47,7 @@ public class RamboPreferencePage
 	public void init(IWorkbench workbench) {
 	}
 	
-	private FieldEditor createFieldEditor(PreferenceField preferenceField) {
+	private FieldEditor createFieldEditor(RamboPreferenceField preferenceField) {
 		return new BooleanFieldEditor(preferenceField.name(), preferenceField.getLabel(), getFieldEditorParent());
 	}
 }

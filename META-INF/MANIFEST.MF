@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Rambo
 Bundle-SymbolicName: com.gpiskun.rambo;singleton:=true
 Bundle-Version: 1.0.0.beta
-Bundle-Activator: com.gpiskun.rambo.Activator
+Bundle-Activator: com.gpiskun.rambo.RamboActivator
 Bundle-Vendor: gpiskun
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime
