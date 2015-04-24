@@ -1,5 +1,13 @@
 package com.gpiskun.rambo.actions;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
+
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
@@ -32,6 +40,9 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) {
+		// Runs thread which is responsible for task execution 
+		new Thread(new RamboRefreshEnvironment()).start();
+		
 		String settings = "";
 		for (RamboPreferenceField field : RamboPreferenceField.values()) {
 			settings += field.name() + ": " + field.enabled() + "\n";
