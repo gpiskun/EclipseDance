@@ -11,8 +11,8 @@ import com.gpiskun.rambo.RamboActivator;
 public enum RamboPreferenceField {
 
 	RELOAD_TARGET_PLATFORM("Reload Target Platform"),
+	REFRESH_PROJECTS("Refresh Projects"),
 	CLEAN_ALL_PROJECTS("Clean all projects"),
-	REFRESH_PACKAGE_EXPLORER("Refresh Projects"),
 	UPDATE_RUN_CONFIG("Update run configuration"),
 	DELETE_WORK_DIR("Delete work directory");
 	

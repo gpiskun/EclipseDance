@@ -18,7 +18,7 @@ public class RefreshEnvironment implements Runnable {
 	public RefreshEnvironment() {
 		taskMap = new EnumMap<RamboPreferenceField, Runnable>(RamboPreferenceField.class);
 		taskMap.put(RamboPreferenceField.RELOAD_TARGET_PLATFORM, new ReloadTargetPlatformTask());
-		taskMap.put(RamboPreferenceField.REFRESH_PACKAGE_EXPLORER, new RefreshPackageExplorerTask());
+		taskMap.put(RamboPreferenceField.REFRESH_PROJECTS, new RefreshProjectsTask());
 		taskMap.put(RamboPreferenceField.CLEAN_ALL_PROJECTS, new CleanAllProjectsTask());
 		taskMap.put(RamboPreferenceField.UPDATE_RUN_CONFIG, new UpdateRunConfigurationTask());
 		taskMap.put(RamboPreferenceField.DELETE_WORK_DIR, new DeleteWorkDirectoryTask());
