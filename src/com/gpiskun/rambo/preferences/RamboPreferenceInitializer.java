@@ -17,8 +17,8 @@ public class RamboPreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = RamboActivator.getDefault().getPreferenceStore();
-		for (RamboPreferenceField constant : RamboPreferenceField.values()) {
-			store.setDefault(constant.name(), true);
+		for (RamboPreferenceField field : RamboPreferenceField.values()) {
+			store.setDefault(field.name(), true);
 		}
 	}
 

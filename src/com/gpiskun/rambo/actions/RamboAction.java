@@ -7,7 +7,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
 import com.gpiskun.rambo.preferences.RamboPreferenceField;
-import com.gpiskun.rambo.tasks.ReloadAllThatCrap;
+import com.gpiskun.rambo.tasks.RefreshEnvironment;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -34,7 +34,7 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	@Override
 	public void run(IAction action) {
 		// Runs thread which is responsible for task execution 
-		new Thread(new ReloadAllThatCrap()).start();
+		new Thread(new RefreshEnvironment()).start();
 		
 		String settings = "";
 		for (RamboPreferenceField field : RamboPreferenceField.values()) {

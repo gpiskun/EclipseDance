@@ -11,14 +11,13 @@ import java.util.stream.Collectors;
 
 import com.gpiskun.rambo.preferences.RamboPreferenceField;
 
-public class ReloadAllThatCrap implements Runnable {
+public class RefreshEnvironment implements Runnable {
 	
 	private final Map<RamboPreferenceField, Runnable> taskMap;
 	
-	public ReloadAllThatCrap() {
+	public RefreshEnvironment() {
 		taskMap = new EnumMap<RamboPreferenceField, Runnable>(RamboPreferenceField.class);
 		taskMap.put(RamboPreferenceField.RELOAD_TARGET_PLATFORM, new ReloadTargetPlatformTask());
-		taskMap.put(RamboPreferenceField.RELOAD_PLUGINS, new ReloadPluginsTask());
 		taskMap.put(RamboPreferenceField.REFRESH_PACKAGE_EXPLORER, new RefreshPackageExplorerTask());
 		taskMap.put(RamboPreferenceField.CLEAN_ALL_PROJECTS, new CleanAllProjectsTask());
 		taskMap.put(RamboPreferenceField.UPDATE_RUN_CONFIG, new UpdateRunConfigurationTask());
