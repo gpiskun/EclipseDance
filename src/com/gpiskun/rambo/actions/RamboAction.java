@@ -1,12 +1,10 @@
 package com.gpiskun.rambo.actions;
 
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import com.gpiskun.rambo.preferences.RamboPreferenceField;
 import com.gpiskun.rambo.tasks.RefreshEnvironment;
 
 /**
@@ -18,7 +16,10 @@ import com.gpiskun.rambo.tasks.RefreshEnvironment;
  * @see IWorkbenchWindowActionDelegate
  */
 public class RamboAction implements IWorkbenchWindowActionDelegate {
+	
+	@SuppressWarnings("unused")
 	private IWorkbenchWindow window;
+	
 	/**
 	 * The constructor.
 	 */
@@ -32,23 +33,8 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 * @see IWorkbenchWindowActionDelegate#run
 	 */
 	@Override
-	public void run(IAction action) {
-		// Runs thread which is responsible for task execution 
+	public void run(IAction action) { 
 		new Thread(new RefreshEnvironment()).start();
-		
-		String settings = "";
-		for (RamboPreferenceField field : RamboPreferenceField.values()) {
-			if (field.isBoolean()) {
-				settings += field.name() + ": " + field.enabled() + "\n";
-			}
-			if (field.isString()) {
-				settings += field.name() + ": " + field.getStringValue() + "\n";
-			}
-		}
-		MessageDialog.openInformation(
-			window.getShell(),
-			"Rambo Settings",
-			settings);
 	}
 
 	/**
