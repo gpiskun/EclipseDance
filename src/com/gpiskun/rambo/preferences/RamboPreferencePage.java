@@ -1,5 +1,7 @@
 package com.gpiskun.rambo.preferences;
 
+import java.util.Map;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -86,6 +88,7 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 		
 		String[][] entryNamesAndValues = new String[launchConfigurations.length][2];
 		for (int i = 0; i < launchConfigurations.length; i++) {
+			print(launchConfigurations[i]);
 			entryNamesAndValues[i][0] = launchConfigurations[i].getName();
 			entryNamesAndValues[i][1] = launchConfigurations[i].getMemento();
 		}
@@ -107,5 +110,11 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 	private void createAddAllPluginsEditor() {
 		boolAddAllPlugins = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.name(), RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.getLabel(), getFieldEditorParent());
 		addField(boolAddAllPlugins);
+	}
+	
+	private void print(ILaunchConfiguration config) throws CoreException {
+		for (Map.Entry<String, Object> entry : config.getAttributes().entrySet()) {
+			System.out.println(String.format("%s: %s", entry.getKey(), entry.getValue()));
+		}
 	}
 }
