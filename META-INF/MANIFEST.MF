@@ -10,6 +10,7 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: org.eclipse.core.resources,
+ org.eclipse.debug.core,
  org.eclipse.pde.core,
  org.eclipse.pde.core.plugin,
  org.eclipse.pde.core.target,

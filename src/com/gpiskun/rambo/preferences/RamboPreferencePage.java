@@ -1,8 +1,16 @@
 package com.gpiskun.rambo.preferences;
 
-import org.eclipse.jface.preference.*;
-import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.ComboFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
+
 import com.gpiskun.rambo.RamboActivator;
 
 /**
@@ -19,10 +27,14 @@ import com.gpiskun.rambo.RamboActivator;
  * be accessed directly via the preference store.
  */
 
-public class RamboPreferencePage
-	extends FieldEditorPreferencePage
-	implements IWorkbenchPreferencePage {
-
+public class RamboPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+	
+	private static final String OSGI_LAUNCH_CONFIG_ID = "org.eclipse.pde.ui.EquinoxLauncher";
+	
+	private ComboFieldEditor comboRunconfig;
+	private BooleanFieldEditor boolAddAllPlugins;
+	private BooleanFieldEditor boolDeleteWorkDirectory;
+	
 	public RamboPreferencePage() {
 		super(GRID);
 		setPreferenceStore(RamboActivator.getDefault().getPreferenceStore());
@@ -35,19 +47,65 @@ public class RamboPreferencePage
 	 * of preferences. Each field editor knows how to save and
 	 * restore itself.
 	 */
+	@Override
 	public void createFieldEditors() {
-		for (RamboPreferenceField field : RamboPreferenceField.values()) {
-			addField(createFieldEditor(field));
+		try {
+			createBasicPluginSettings();
+			createRunConfigurationSettings();
+		}
+		catch (CoreException e) {
+			throw new RuntimeException(e);
 		}
 	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
 	 */
+	@Override
 	public void init(IWorkbench workbench) {
 	}
+		
+	private void createBasicPluginSettings() {
+		addField(new BooleanFieldEditor(RamboPreferenceField.RELOAD_TARGET_PLATFORM.name(), RamboPreferenceField.RELOAD_TARGET_PLATFORM.getLabel(), getFieldEditorParent())); 
+		addField(new BooleanFieldEditor(RamboPreferenceField.REFRESH_PROJECTS.name(), RamboPreferenceField.REFRESH_PROJECTS.getLabel(), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(RamboPreferenceField.CLEAN_ALL_PROJECTS.name(), RamboPreferenceField.CLEAN_ALL_PROJECTS.getLabel(), getFieldEditorParent()));
+	}
 	
-	private FieldEditor createFieldEditor(RamboPreferenceField preferenceField) {
-		return new BooleanFieldEditor(preferenceField.name(), preferenceField.getLabel(), getFieldEditorParent());
+	private void createRunConfigurationSettings() throws CoreException {
+		createRunConfigComboEditor();
+		createRunConfigActionSettings();
+	}
+	
+	private void createRunConfigComboEditor() throws CoreException {
+		String name = RamboPreferenceField.RUN_CONFIG.name();
+		String label = RamboPreferenceField.RUN_CONFIG.getLabel();
+		
+		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(OSGI_LAUNCH_CONFIG_ID);
+		ILaunchConfiguration[] launchConfigurations = launchManager.getLaunchConfigurations(launchConfigurationType);
+		
+		String[][] entryNamesAndValues = new String[launchConfigurations.length][2];
+		for (int i = 0; i < launchConfigurations.length; i++) {
+			entryNamesAndValues[i][0] = launchConfigurations[i].getName();
+			entryNamesAndValues[i][1] = launchConfigurations[i].getMemento();
+		}
+						
+		comboRunconfig = new ComboFieldEditor(name, label, entryNamesAndValues, getFieldEditorParent());
+		addField(comboRunconfig);
+	}
+	
+	private void createRunConfigActionSettings() {
+		createAddAllPluginsEditor();
+		createDeleteWorkDirectoryEditor();
+	}
+	
+	private void createDeleteWorkDirectoryEditor() {
+		boolDeleteWorkDirectory = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_DELETE_WORK_DIR.name(), RamboPreferenceField.RUN_CONFIG_DELETE_WORK_DIR.getLabel(), getFieldEditorParent()); 
+		addField(boolDeleteWorkDirectory);
+	}
+	
+	private void createAddAllPluginsEditor() {
+		boolAddAllPlugins = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.name(), RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.getLabel(), getFieldEditorParent());
+		addField(boolAddAllPlugins);
 	}
 }

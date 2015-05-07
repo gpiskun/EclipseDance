@@ -10,17 +10,20 @@ import com.gpiskun.rambo.RamboActivator;
  */
 public enum RamboPreferenceField {
 
-	RELOAD_TARGET_PLATFORM("Reload Target Platform"),
-	REFRESH_PROJECTS("Refresh Projects"),
-	CLEAN_ALL_PROJECTS("Clean all projects"),
-	UPDATE_RUN_CONFIG("Update run configuration"),
-	DELETE_WORK_DIR("Delete work directory");
+	RELOAD_TARGET_PLATFORM("Reload Target Platform", Boolean.class),
+	REFRESH_PROJECTS("Refresh Projects", Boolean.class),
+	CLEAN_ALL_PROJECTS("Clean all projects", Boolean.class),
+	RUN_CONFIG("Run Configuration", String.class),
+	RUN_CONFIG_ADD_ALL_BUNDLES("Add all bundles from target platform", Boolean.class),
+	RUN_CONFIG_DELETE_WORK_DIR("Delete work directory", Boolean.class);
 	
 	private final String label;
+	private final Class<?> type;
 	private final Preferences preferences;
 	
-	private RamboPreferenceField(String label) {
+	private RamboPreferenceField(String label, Class<?> type) {
 		this.label = label;
+		this.type = type;
 		preferences = InstanceScope.INSTANCE.getNode(RamboActivator.PLUGIN_ID);
 	}
 	
@@ -28,7 +31,23 @@ public enum RamboPreferenceField {
 		return this.label;
 	}
 	
+	public boolean isBoolean() {
+		return this.type.equals(Boolean.class);
+	}
+	
+	public boolean isString() {
+		return this.type.equals(String.class);
+	}
+	
 	public boolean enabled() {
-		return preferences.getBoolean(name(), true);
+		return isBoolean() && this.preferences.getBoolean(this.name(), true);
+	}
+		
+	public String getStringValue() {
+		return this.preferences.get(this.name(), null);
+	}
+	
+	public Class<?> getType() {
+		return this.type;
 	}
 }

@@ -38,7 +38,12 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 		
 		String settings = "";
 		for (RamboPreferenceField field : RamboPreferenceField.values()) {
-			settings += field.name() + ": " + field.enabled() + "\n";
+			if (field.isBoolean()) {
+				settings += field.name() + ": " + field.enabled() + "\n";
+			}
+			if (field.isString()) {
+				settings += field.name() + ": " + field.getStringValue() + "\n";
+			}
 		}
 		MessageDialog.openInformation(
 			window.getShell(),

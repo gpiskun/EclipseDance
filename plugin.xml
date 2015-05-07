@@ -9,14 +9,14 @@
             visible="true"
             id="com.gpiskun.rambo.actionSet">
          <menu
-               label="Rambo &amp;Menu"
+               label="Rambo"
                id="ramboMenu">
             <separator
                   name="ramboGroup">
             </separator>
          </menu>
          <action
-               label="&amp;Rambo Action"
+               label="&amp;Reload My Environment"
                icon="icons/rambo.png"
                class="com.gpiskun.rambo.actions.RamboAction"
                tooltip="Reload My Environment"

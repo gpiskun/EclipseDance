@@ -18,8 +18,12 @@ public class RamboPreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = RamboActivator.getDefault().getPreferenceStore();
 		for (RamboPreferenceField field : RamboPreferenceField.values()) {
-			store.setDefault(field.name(), true);
+			if (field.isBoolean()) {
+				store.setDefault(field.name(), true);
+			}
+			if (field.isString()) {
+				store.setDefault(field.name(), "");
+			}
 		}
 	}
-
 }
