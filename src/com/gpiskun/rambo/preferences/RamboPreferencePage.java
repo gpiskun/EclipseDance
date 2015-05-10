@@ -79,10 +79,8 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 	private void createRunConfigComboEditor() throws CoreException {
 		String name = RamboPreferenceField.RUN_CONFIG.name();
 		String label = RamboPreferenceField.RUN_CONFIG.getLabel();
-		
-		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(OSGI_LAUNCH_CONFIG_ID);
-		ILaunchConfiguration[] launchConfigurations = launchManager.getLaunchConfigurations(launchConfigurationType);
+				
+		ILaunchConfiguration[] launchConfigurations = getOsgiLaunchConfigurations();
 		
 		String[][] entryNamesAndValues = new String[launchConfigurations.length][2];
 		for (int i = 0; i < launchConfigurations.length; i++) {
@@ -94,18 +92,26 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 		addField(comboRunconfig);
 	}
 	
-	private void createRunConfigActionSettings() {
+	private void createRunConfigActionSettings() throws CoreException {
 		createAddAllPluginsEditor();
 		createDeleteWorkDirectoryEditor();
 	}
 	
-	private void createDeleteWorkDirectoryEditor() {
+	private void createDeleteWorkDirectoryEditor() throws CoreException {
 		boolDeleteWorkDirectory = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_DELETE_WORK_DIR.name(), RamboPreferenceField.RUN_CONFIG_DELETE_WORK_DIR.getLabel(), getFieldEditorParent()); 
 		addField(boolDeleteWorkDirectory);
+		boolDeleteWorkDirectory.setEnabled(getOsgiLaunchConfigurations().length != 0, getFieldEditorParent());
 	}
 	
-	private void createAddAllPluginsEditor() {
+	private void createAddAllPluginsEditor() throws CoreException {
 		boolAddAllPlugins = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.name(), RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.getLabel(), getFieldEditorParent());
 		addField(boolAddAllPlugins);
+		boolAddAllPlugins.setEnabled(getOsgiLaunchConfigurations().length != 0, getFieldEditorParent());
+	}
+	
+	private ILaunchConfiguration[] getOsgiLaunchConfigurations() throws CoreException {
+		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(OSGI_LAUNCH_CONFIG_ID);
+		return launchManager.getLaunchConfigurations(launchConfigurationType);
 	}
 }
