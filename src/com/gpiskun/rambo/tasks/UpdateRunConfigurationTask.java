@@ -10,6 +10,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 import com.gpiskun.rambo.preferences.RamboPreferenceField;
 
@@ -25,13 +26,14 @@ public class UpdateRunConfigurationTask implements Runnable {
 	public void run() {
 		try {
 			ILaunchConfiguration launchConfiguration = getLaunchConfiguration();
+			
 			ILaunchConfigurationWorkingCopy workingCopy = launchConfiguration.getWorkingCopy();
 			workingCopy.setAttribute(TARGET_BUNDLES_ATTR, getRunConfigBundles(PluginRegistry.getExternalModels()));
 			workingCopy.setAttribute(WORKSPACE_BUNDLES_ATTR, getRunConfigBundles(PluginRegistry.getWorkspaceModels()));
 			workingCopy.doSave();
 		}
 		catch (CoreException e) {
-			throw new RuntimeException(e);
+			StatusManager.getManager().handle(e.getStatus());
 		}
 	}
 	

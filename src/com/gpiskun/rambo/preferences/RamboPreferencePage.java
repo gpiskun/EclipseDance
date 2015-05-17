@@ -10,6 +10,7 @@ import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 import com.gpiskun.rambo.RamboActivator;
 
@@ -54,7 +55,7 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 			createRunConfigurationSettings();
 		}
 		catch (CoreException e) {
-			throw new RuntimeException(e);
+			StatusManager.getManager().handle(e.getStatus());
 		}
 	}
 

@@ -7,6 +7,7 @@ import org.eclipse.pde.core.target.ITargetPlatformService;
 import org.eclipse.pde.core.target.LoadTargetDefinitionJob;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 public class ReloadTargetPlatformTask implements Runnable {
 		
@@ -22,7 +23,7 @@ public class ReloadTargetPlatformTask implements Runnable {
 			targetDefinition.resolve(progressMonitor);
 			LoadTargetDefinitionJob.load(targetDefinition);
 		} catch (CoreException e) {
-			throw new RuntimeException(e);
+			StatusManager.getManager().handle(e.getStatus());
 		}	
 	}
 }

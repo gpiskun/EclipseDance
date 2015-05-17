@@ -6,6 +6,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchManager;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 import com.gpiskun.rambo.preferences.RamboPreferenceField;
 
@@ -19,9 +20,11 @@ public class DeleteWorkDirectoryTask implements Runnable {
 			ILaunchConfiguration launchConfiguration = getLaunchConfiguration();
 			String path = (String) launchConfiguration.getAttributes().get(WORKING_DIR);
 			File directory = new File(path);
-			directory.delete();
+			if (directory.isDirectory()) {
+				directory.delete();
+			}
 		} catch (CoreException e) {
-			throw new RuntimeException(e);
+			StatusManager.getManager().handle(e.getStatus());
 		}
 	}
 	

@@ -9,6 +9,11 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.ui.statushandlers.StatusManager;
+
+import com.gpiskun.rambo.RamboActivator;
 import com.gpiskun.rambo.preferences.RamboPreferenceField;
 
 public class RefreshEnvironment implements Runnable {
@@ -32,9 +37,9 @@ public class RefreshEnvironment implements Runnable {
 		try {
 			executorService.invokeAll(callableTasks);
 		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
+			IStatus status = new Status(IStatus.ERROR, RamboActivator.PLUGIN_ID, "Environment reloading failed", e);
+			StatusManager.getManager().handle(status);
 		}
-
 	}
 	
 	private List<Runnable> getEnabledTasks() {

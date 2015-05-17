@@ -7,21 +7,23 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.statushandlers.StatusManager;
 
 public class CleanAllProjectsTask implements Runnable {
 
 	@Override
 	public void run() {
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IProgressMonitor progressMonitor = (IProgressMonitor) workbench.getService(IProgressMonitor.class);
-		
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
-			try {
+		try {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IProgressMonitor progressMonitor = (IProgressMonitor) workbench.getService(IProgressMonitor.class);
+			
+			IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+			for (IProject project : projects) {
 				project.build(IncrementalProjectBuilder.CLEAN_BUILD, progressMonitor);
-			} catch (CoreException e) {
-				throw new RuntimeException(e);				
-			}
+			} 
+		}
+		catch (CoreException e) {
+			StatusManager.getManager().handle(e.getStatus());				
 		}
 	}
 }
