@@ -1,16 +1,15 @@
 package com.gpiskun.rambo.preferences;
 
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationType;
-import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.statushandlers.StatusManager;
+import org.osgi.service.prefs.Preferences;
 
 import com.gpiskun.rambo.RamboActivator;
 
@@ -29,8 +28,6 @@ import com.gpiskun.rambo.RamboActivator;
  */
 
 public class RamboPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
-	
-	private static final String OSGI_LAUNCH_CONFIG_ID = "org.eclipse.pde.ui.EquinoxLauncher";
 	
 	private ComboFieldEditor comboRunconfig;
 	private BooleanFieldEditor boolAddAllPlugins;
@@ -67,9 +64,9 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 	}
 		
 	private void createBasicPluginSettings() {
-		addField(new BooleanFieldEditor(RamboPreferenceField.RELOAD_TARGET_PLATFORM.name(), RamboPreferenceField.RELOAD_TARGET_PLATFORM.getLabel(), getFieldEditorParent())); 
-		addField(new BooleanFieldEditor(RamboPreferenceField.REFRESH_PROJECTS.name(), RamboPreferenceField.REFRESH_PROJECTS.getLabel(), getFieldEditorParent()));
-		addField(new BooleanFieldEditor(RamboPreferenceField.CLEAN_ALL_PROJECTS.name(), RamboPreferenceField.CLEAN_ALL_PROJECTS.getLabel(), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(RamboPreference.RELOAD_TARGET_PLATFORM.name(), RamboPreference.RELOAD_TARGET_PLATFORM.getLabel(), getFieldEditorParent())); 
+		addField(new BooleanFieldEditor(RamboPreference.REFRESH_PROJECTS.name(), RamboPreference.REFRESH_PROJECTS.getLabel(), getFieldEditorParent()));
+		addField(new BooleanFieldEditor(RamboPreference.CLEAN_ALL_PROJECTS.name(), RamboPreference.CLEAN_ALL_PROJECTS.getLabel(), getFieldEditorParent()));
 	}
 	
 	private void createRunConfigurationSettings() throws CoreException {
@@ -78,15 +75,24 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 	}
 	
 	private void createRunConfigComboEditor() throws CoreException {
-		String name = RamboPreferenceField.RUN_CONFIG.name();
-		String label = RamboPreferenceField.RUN_CONFIG.getLabel();
+		String name = RamboPreference.RUN_CONFIG.name();
+		String label = RamboPreference.RUN_CONFIG.getLabel();
 				
-		ILaunchConfiguration[] launchConfigurations = getOsgiLaunchConfigurations();
+		ILaunchConfiguration[] launchConfigurations = RamboPreferenceUtils.getOsgiLaunchConfigurations();
+		String[][] entryNamesAndValues = new String[0][0];
 		
-		String[][] entryNamesAndValues = new String[launchConfigurations.length][2];
-		for (int i = 0; i < launchConfigurations.length; i++) {
-			entryNamesAndValues[i][0] = launchConfigurations[i].getName();
-			entryNamesAndValues[i][1] = launchConfigurations[i].getMemento();
+		if (launchConfigurations.length > 0) {
+			entryNamesAndValues = new String[launchConfigurations.length][2];
+			for (int i = 0; i < launchConfigurations.length; i++) {
+				entryNamesAndValues[i][0] = launchConfigurations[i].getName();
+				entryNamesAndValues[i][1] = launchConfigurations[i].getMemento();
+			}
+		} 
+		else {
+			Preferences preferences = InstanceScope.INSTANCE.getNode(RamboActivator.PLUGIN_ID);
+			preferences.put(RamboPreference.RUN_CONFIG.name(), "");
+			preferences.putBoolean(RamboPreference.RUN_CONFIG_ADD_ALL_BUNDLES.name(), false);
+			preferences.putBoolean(RamboPreference.RUN_CONFIG_DELETE_WORK_DIR.name(), false);
 		}
 						
 		comboRunconfig = new ComboFieldEditor(name, label, entryNamesAndValues, getFieldEditorParent());
@@ -99,20 +105,14 @@ public class RamboPreferencePage extends FieldEditorPreferencePage implements IW
 	}
 	
 	private void createDeleteWorkDirectoryEditor() throws CoreException {
-		boolDeleteWorkDirectory = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_DELETE_WORK_DIR.name(), RamboPreferenceField.RUN_CONFIG_DELETE_WORK_DIR.getLabel(), getFieldEditorParent()); 
+		boolDeleteWorkDirectory = new BooleanFieldEditor(RamboPreference.RUN_CONFIG_DELETE_WORK_DIR.name(), RamboPreference.RUN_CONFIG_DELETE_WORK_DIR.getLabel(), getFieldEditorParent()); 
 		addField(boolDeleteWorkDirectory);
-		boolDeleteWorkDirectory.setEnabled(getOsgiLaunchConfigurations().length != 0, getFieldEditorParent());
+		boolDeleteWorkDirectory.setEnabled(RamboPreferenceUtils.hasOsgiLaunchConfigurations(), getFieldEditorParent());
 	}
 	
 	private void createAddAllPluginsEditor() throws CoreException {
-		boolAddAllPlugins = new BooleanFieldEditor(RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.name(), RamboPreferenceField.RUN_CONFIG_ADD_ALL_BUNDLES.getLabel(), getFieldEditorParent());
+		boolAddAllPlugins = new BooleanFieldEditor(RamboPreference.RUN_CONFIG_ADD_ALL_BUNDLES.name(), RamboPreference.RUN_CONFIG_ADD_ALL_BUNDLES.getLabel(), getFieldEditorParent());
 		addField(boolAddAllPlugins);
-		boolAddAllPlugins.setEnabled(getOsgiLaunchConfigurations().length != 0, getFieldEditorParent());
-	}
-	
-	private ILaunchConfiguration[] getOsgiLaunchConfigurations() throws CoreException {
-		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		ILaunchConfigurationType launchConfigurationType = launchManager.getLaunchConfigurationType(OSGI_LAUNCH_CONFIG_ID);
-		return launchManager.getLaunchConfigurations(launchConfigurationType);
+		boolAddAllPlugins.setEnabled(RamboPreferenceUtils.hasOsgiLaunchConfigurations(), getFieldEditorParent());
 	}
 }

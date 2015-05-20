@@ -5,7 +5,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import com.gpiskun.rambo.tasks.RefreshEnvironment;
+import com.gpiskun.rambo.tasks.RefreshEnvironmentTask;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -34,7 +34,7 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	 */
 	@Override
 	public void run(IAction action) { 
-		new Thread(new RefreshEnvironment()).start();
+		new Thread(new RefreshEnvironmentTask()).start();
 	}
 
 	/**

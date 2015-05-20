@@ -11,18 +11,17 @@ import com.gpiskun.rambo.RamboActivator;
 public class RamboPreferenceInitializer extends AbstractPreferenceInitializer {
 
 	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer#initializeDefaultPreferences()
 	 */
 	public void initializeDefaultPreferences() {
-		IPreferenceStore store = RamboActivator.getDefault().getPreferenceStore();
-		for (RamboPreferenceField field : RamboPreferenceField.values()) {
-			if (field.isBoolean()) {
-				store.setDefault(field.name(), true);
+		IPreferenceStore preferenceStore = RamboActivator.getDefault().getPreferenceStore();
+		for (IRamboPreferenceItem<?> item : RamboPreferenceItemRegistry.getInstance().getPreferences()) {
+			Object defaultValue = item.getDefaultValue();
+			if (defaultValue.getClass().equals(String.class)) {
+				preferenceStore.setDefault(item.getName(), (String) defaultValue);
 			}
-			if (field.isString()) {
-				store.setDefault(field.name(), "");
+			else if (defaultValue.getClass().equals(Boolean.class)) {
+				preferenceStore.setDefault(item.getName(), (Boolean) defaultValue);
 			}
 		}
 	}

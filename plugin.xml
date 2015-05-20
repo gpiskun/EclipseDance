@@ -50,5 +50,5 @@
             class="com.gpiskun.rambo.preferences.RamboPreferenceInitializer">
       </initializer>
    </extension>
-
+   
 </plugin>
