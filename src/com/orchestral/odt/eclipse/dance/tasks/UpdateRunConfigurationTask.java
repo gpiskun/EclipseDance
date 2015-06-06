@@ -1,4 +1,4 @@
-package com.gpiskun.rambo.tasks;
+package com.orchestral.odt.eclipse.dance.tasks;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -6,7 +6,7 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.pde.core.plugin.PluginRegistry;
 import org.eclipse.ui.statushandlers.StatusManager;
 
-import com.gpiskun.rambo.preferences.RamboPreferenceUtils;
+import com.orchestral.odt.eclipse.dance.preferences.PreferenceUtils;
 
 
 public class UpdateRunConfigurationTask implements Runnable {
@@ -17,11 +17,11 @@ public class UpdateRunConfigurationTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			ILaunchConfiguration launchConfiguration = RamboPreferenceUtils.getOsgiLaunchConfiguration();
+			ILaunchConfiguration launchConfiguration = PreferenceUtils.getOsgiLaunchConfiguration();
 			
 			ILaunchConfigurationWorkingCopy workingCopy = launchConfiguration.getWorkingCopy();
-			workingCopy.setAttribute(TARGET_BUNDLES_ATTR, RamboPreferenceUtils.getBundleNames(PluginRegistry.getExternalModels()));
-			workingCopy.setAttribute(WORKSPACE_BUNDLES_ATTR, RamboPreferenceUtils.getBundleNames(PluginRegistry.getWorkspaceModels()));
+			workingCopy.setAttribute(TARGET_BUNDLES_ATTR, PreferenceUtils.getBundleNames(PluginRegistry.getExternalModels()));
+			workingCopy.setAttribute(WORKSPACE_BUNDLES_ATTR, PreferenceUtils.getBundleNames(PluginRegistry.getWorkspaceModels()));
 			workingCopy.doSave();
 		}
 		catch (CoreException e) {

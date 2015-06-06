@@ -5,24 +5,24 @@
    <extension
          point="org.eclipse.ui.actionSets">
       <actionSet
-            label="Rambo Action Set"
+            label="Eclipse Dance Action Set"
             visible="true"
-            id="com.gpiskun.rambo.actionSet">
+            id="com.orchestral.odt.eclipse.dance.actionSet">
          <menu
-               label="Rambo"
-               id="ramboMenu">
+               label="Eclipse Dance"
+               id="eclipseDanceMenu">
             <separator
-                  name="ramboGroup">
+                  name="eclipseDanceGroup">
             </separator>
          </menu>
          <action
-               label="&amp;Reload My Environment"
-               icon="icons/rambo.png"
-               class="com.gpiskun.rambo.actions.RamboAction"
-               tooltip="Reload My Environment"
-               menubarPath="ramboMenu/ramboGroup"
-               toolbarPath="ramboGroup"
-               id="com.gpiskun.rambo.actions.RamboAction">
+               label="&amp;Dance"
+               icon="icons/dance.png"
+               class="com.orchestral.odt.eclipse.dance.actions.DanceAction"
+               tooltip="Dance"
+               menubarPath="eclipseDanceMenu/eclipseDanceGroup"
+               toolbarPath="eclipseDanceGroup"
+               id="com.orchestral.odt.eclipse.dance.actions.DanceAction">
          </action>
       </actionSet>
    </extension>
@@ -39,15 +39,15 @@
    <extension
          point="org.eclipse.ui.preferencePages">
       <page
-            name="Rambo"
-            class="com.gpiskun.rambo.preferences.RamboPreferencePage"
-            id="com.gpiskun.rambo.preferences.RamboPreferencePage">
+            name="Eclipse Dance"
+            class="com.orchestral.odt.eclipse.dance.preferences.PreferencePage"
+            id="com.orchestral.odt.eclipse.dance.preferences.PreferencePage">
       </page>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
       <initializer
-            class="com.gpiskun.rambo.preferences.RamboPreferenceInitializer">
+            class="com.orchestral.odt.eclipse.dance.preferences.PreferenceInitializer">
       </initializer>
    </extension>
    

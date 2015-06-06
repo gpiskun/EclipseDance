@@ -1,4 +1,4 @@
-package com.gpiskun.rambo.tasks;
+package com.orchestral.odt.eclipse.dance.tasks;
 
 import java.io.IOException;
 import java.nio.file.FileVisitResult;
@@ -14,8 +14,8 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.ui.statushandlers.StatusManager;
 
-import com.gpiskun.rambo.RamboActivator;
-import com.gpiskun.rambo.preferences.RamboPreferenceUtils;
+import com.orchestral.odt.eclipse.dance.EclipseDanceActivator;
+import com.orchestral.odt.eclipse.dance.preferences.PreferenceUtils;
 
 public class DeleteWorkDirectoryTask implements Runnable {
 	
@@ -24,7 +24,7 @@ public class DeleteWorkDirectoryTask implements Runnable {
 	@Override
 	public void run() {
 		try {
-			ILaunchConfiguration launchConfiguration = RamboPreferenceUtils.getOsgiLaunchConfiguration();
+			ILaunchConfiguration launchConfiguration = PreferenceUtils.getOsgiLaunchConfiguration();
 			
 			String path = (String) launchConfiguration.getAttributes().get(WORKING_DIR);
 			Path directory = Paths.get(path);
@@ -46,7 +46,7 @@ public class DeleteWorkDirectoryTask implements Runnable {
 		} catch (CoreException e) {
 			StatusManager.getManager().handle(e.getStatus());
 		} catch (IOException e) {
-			IStatus status = new Status(Status.ERROR, RamboActivator.PLUGIN_ID, e.getMessage());
+			IStatus status = new Status(Status.ERROR, EclipseDanceActivator.PLUGIN_ID, e.getMessage());
 			StatusManager.getManager().handle(status);
 		}
 	}

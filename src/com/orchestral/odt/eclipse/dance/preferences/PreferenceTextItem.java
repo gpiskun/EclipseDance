@@ -1,19 +1,19 @@
-package com.gpiskun.rambo.preferences;
+package com.orchestral.odt.eclipse.dance.preferences;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.service.prefs.Preferences;
 
-import com.gpiskun.rambo.RamboActivator;
+import com.orchestral.odt.eclipse.dance.EclipseDanceActivator;
 
-public class RamboPreferenceTextItem extends RamboPreferenceItemAdapter<String> {
+public class PreferenceTextItem extends PreferenceItemAdapter<String> {
 
-	public RamboPreferenceTextItem(String name, String defaultValue) {
+	public PreferenceTextItem(String name, String defaultValue) {
 		super(name, defaultValue);
 	}
 
 	@Override
 	public String getValue() {
-		Preferences preferences = InstanceScope.INSTANCE.getNode(RamboActivator.PLUGIN_ID);
+		Preferences preferences = InstanceScope.INSTANCE.getNode(EclipseDanceActivator.PLUGIN_ID);
 		return preferences.get(this.getName(), this.getDefaultValue());
 	}
 

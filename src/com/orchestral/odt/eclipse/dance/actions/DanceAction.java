@@ -1,11 +1,11 @@
-package com.gpiskun.rambo.actions;
+package com.orchestral.odt.eclipse.dance.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 
-import com.gpiskun.rambo.tasks.RefreshEnvironmentTask;
+import com.orchestral.odt.eclipse.dance.tasks.RefreshEnvironmentTask;
 
 /**
  * Our sample action implements workbench action delegate.
@@ -15,7 +15,7 @@ import com.gpiskun.rambo.tasks.RefreshEnvironmentTask;
  * delegated to it.
  * @see IWorkbenchWindowActionDelegate
  */
-public class RamboAction implements IWorkbenchWindowActionDelegate {
+public class DanceAction implements IWorkbenchWindowActionDelegate {
 	
 	@SuppressWarnings("unused")
 	private IWorkbenchWindow window;
@@ -23,7 +23,7 @@ public class RamboAction implements IWorkbenchWindowActionDelegate {
 	/**
 	 * The constructor.
 	 */
-	public RamboAction() {
+	public DanceAction() {
 	}
 
 	/**

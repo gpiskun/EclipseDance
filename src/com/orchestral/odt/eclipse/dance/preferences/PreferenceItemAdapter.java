@@ -1,21 +1,21 @@
-package com.gpiskun.rambo.preferences;
+package com.orchestral.odt.eclipse.dance.preferences;
 
 
-public abstract class RamboPreferenceItemAdapter<T> implements IRamboPreferenceItem<T> {
+public abstract class PreferenceItemAdapter<T> implements IPreferenceItem<T> {
 	
 	private final String name;
 	private final T defaultValue;
-	private final IRamboPreferenceItem<?> parent;
+	private final IPreferenceItem<?> parent;
 	
-	public RamboPreferenceItemAdapter() {
+	public PreferenceItemAdapter() {
 		this(null, null);
 	}
 	
-	public RamboPreferenceItemAdapter(String name, T defaultValue) {
+	public PreferenceItemAdapter(String name, T defaultValue) {
 		this(name, null, defaultValue);
 	}
 	
-	public RamboPreferenceItemAdapter(String name, IRamboPreferenceItem<?> parent, T defaultValue) {
+	public PreferenceItemAdapter(String name, IPreferenceItem<?> parent, T defaultValue) {
 		this.name = name;
 		this.parent = parent;
 		this.defaultValue = defaultValue;
@@ -27,7 +27,7 @@ public abstract class RamboPreferenceItemAdapter<T> implements IRamboPreferenceI
 	}
 
 	@Override
-	public IRamboPreferenceItem<?> getParent() {
+	public IPreferenceItem<?> getParent() {
 		return parent;
 	}
 

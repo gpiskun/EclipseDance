@@ -1,21 +1,21 @@
-package com.gpiskun.rambo.preferences;
+package com.orchestral.odt.eclipse.dance.preferences;
 
 
 /**
  * Constant definitions for plug-in preferences
  */
-public enum RamboPreference {
+public enum Preference {
 
-	RELOAD_TARGET_PLATFORM("Reload Target Platform", Boolean.class),
-	REFRESH_PROJECTS("Refresh Projects", Boolean.class),
+	RELOAD_TARGET_PLATFORM("Reload target platform", Boolean.class),
+	REFRESH_PROJECTS("Refresh projects", Boolean.class),
 	CLEAN_ALL_PROJECTS("Clean all projects", Boolean.class),
-	RUN_CONFIG("Run Configuration", String.class),
+	RUN_CONFIG("Run configuration", String.class),
 	RUN_CONFIG_ADD_ALL_BUNDLES("Add all bundles from target platform", Boolean.class),
 	RUN_CONFIG_DELETE_WORK_DIR("Delete work directory", Boolean.class);
 	
 	private final String label;
 	
-	private RamboPreference(String label, Class<?> type) {
+	private Preference(String label, Class<?> type) {
 		this.label = label;
 	}
 	

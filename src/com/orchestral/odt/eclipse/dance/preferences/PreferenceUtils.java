@@ -1,4 +1,4 @@
-package com.gpiskun.rambo.preferences;
+package com.orchestral.odt.eclipse.dance.preferences;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,14 @@ import org.eclipse.debug.core.ILaunchConfigurationType;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
-public final class RamboPreferenceUtils {
+public final class PreferenceUtils {
 	
 	private static final String OSGI_LAUNCH_CONFIG_ID = "org.eclipse.pde.ui.EquinoxLauncher";
 	
 	private static final String BUNDLE_START_LEVEL = "default";
 	private static final String BUNDLE_AUTO_START = "default";
 	
-	private RamboPreferenceUtils() {}
+	private PreferenceUtils() {}
 	
 	public static ILaunchConfiguration[] getOsgiLaunchConfigurations() throws CoreException {
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
@@ -28,8 +28,8 @@ public final class RamboPreferenceUtils {
 	
 	public static ILaunchConfiguration getOsgiLaunchConfiguration() throws CoreException {
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
-		RamboPreferenceItemRegistry preferenceRegistry = RamboPreferenceItemRegistry.getInstance();
-		IRamboPreferenceItem<String> preferenceItem = preferenceRegistry.getPreference(RamboPreference.RUN_CONFIG.name(), String.class);
+		PreferenceItemRegistry preferenceRegistry = PreferenceItemRegistry.getInstance();
+		IPreferenceItem<String> preferenceItem = preferenceRegistry.getPreference(Preference.RUN_CONFIG.name(), String.class);
 		
 		return launchManager.getLaunchConfiguration(preferenceItem.getValue());
 	}

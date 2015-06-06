@@ -1,23 +1,23 @@
-package com.gpiskun.rambo.preferences;
+package com.orchestral.odt.eclipse.dance.preferences;
 
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.service.prefs.Preferences;
 
-import com.gpiskun.rambo.RamboActivator;
+import com.orchestral.odt.eclipse.dance.EclipseDanceActivator;
 
-public class RamboPreferenceCheckboxItem extends RamboPreferenceItemAdapter<Boolean> {
+public class PreferenceCheckboxItem extends PreferenceItemAdapter<Boolean> {
 			
-	public RamboPreferenceCheckboxItem(String name, IRamboPreferenceItem<?> parent, boolean defaultValue) {
+	public PreferenceCheckboxItem(String name, IPreferenceItem<?> parent, boolean defaultValue) {
 		super(name, parent, defaultValue);
 	}
 
-	public RamboPreferenceCheckboxItem(String name, boolean defaultValue) {
+	public PreferenceCheckboxItem(String name, boolean defaultValue) {
 		super(name, defaultValue);
 	}
 
 	@Override
 	public Boolean getValue() {
-		Preferences preferences = InstanceScope.INSTANCE.getNode(RamboActivator.PLUGIN_ID);
+		Preferences preferences = InstanceScope.INSTANCE.getNode(EclipseDanceActivator.PLUGIN_ID);
 		return preferences.getBoolean(getName(), this.getDefaultValue());
 	}
 
