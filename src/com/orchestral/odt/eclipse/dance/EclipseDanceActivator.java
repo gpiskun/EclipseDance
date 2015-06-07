@@ -1,4 +1,4 @@
-package com.gpiskun.rambo;
+package com.orchestral.odt.eclipse.dance;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -7,13 +7,13 @@ import org.osgi.framework.BundleContext;
 /**
  * The activator class controls the plug-in life cycle
  */
-public class RamboActivator extends AbstractUIPlugin {
+public class EclipseDanceActivator extends AbstractUIPlugin {
 
-	public static final String PLUGIN_ID = "com.gpiskun.rambo"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.orchestral.odt.eclipse.dance"; //$NON-NLS-1$
 
-	private static RamboActivator plugin;
+	private static EclipseDanceActivator plugin;
 
-	public RamboActivator() {
+	public EclipseDanceActivator() {
 	}
 
 	/*
@@ -41,7 +41,7 @@ public class RamboActivator extends AbstractUIPlugin {
 	 *
 	 * @return the shared instance
 	 */
-	public static RamboActivator getDefault() {
+	public static EclipseDanceActivator getDefault() {
 		return plugin;
 	}
 
